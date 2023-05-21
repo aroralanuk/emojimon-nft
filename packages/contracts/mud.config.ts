@@ -43,6 +43,15 @@ export default mudConfig({
     Obstruction: "bool",
     OwnedBy: "bytes32",
     Player: "bool",
+    Token: {
+      keySchema: {
+        id: "bytes32",
+        tokenId: "uint256",
+      },
+      schema: {
+        uri: "bytes"
+      }
+    },
     Position: {
       dataStruct: false,
       schema: {

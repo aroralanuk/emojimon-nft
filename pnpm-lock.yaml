@@ -3,6 +3,10 @@ lockfileVersion: '6.0'
 importers:
 
   .:
+    dependencies:
+      '@openzeppelin/contracts':
+        specifier: ^4.8.3
+        version: 4.8.3
     devDependencies:
       '@latticexyz/cli':
         specifier: 2.0.0-alpha.1.177
@@ -122,6 +126,9 @@ importers:
       '@ethersproject/providers':
         specifier: ^5.7.2
         version: 5.7.2
+      '@hyperlane-xyz/core':
+        specifier: ^1.3.4
+        version: 1.3.4
       '@latticexyz/cli':
         specifier: 2.0.0-alpha.1.177
         version: 2.0.0-alpha.1.177(@ethersproject/bytes@5.7.0)(google-protobuf@3.21.2)
@@ -137,6 +144,9 @@ importers:
       '@latticexyz/world':
         specifier: 2.0.0-alpha.1.177
         version: 2.0.0-alpha.1.177(typescript@5.0.4)
+      '@openzeppelin/contracts':
+        specifier: ^4.8.3
+        version: 4.8.3
       ethers:
         specifier: ^5.7.2
         version: 5.7.2
@@ -908,6 +918,26 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
+  /@hyperlane-xyz/core@1.3.4:
+    resolution: {integrity: sha512-GvtdaCV0K64i2J64oOYeMfLCriWel8BwntUlb6PVMb1WQHyeoOOFcSN2wM6j79k7tSygSwLGnPEmRzd7OLJlZQ==}
+    dependencies:
+      '@hyperlane-xyz/utils': 1.3.4
+      '@openzeppelin/contracts': 4.8.3
+      '@openzeppelin/contracts-upgradeable': 4.8.3
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /@hyperlane-xyz/utils@1.3.4:
+    resolution: {integrity: sha512-qrWDtV4SPvuztkkd6oXsnMQU0wTIv7FzxwOFu9juaH/58kionmd9umC4MWSQmwLf4qG353KvUkPiqKQ1PsxqLg==}
+    dependencies:
+      ethers: 5.7.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
   /@improbable-eng/grpc-web-node-http-transport@0.15.0(@improbable-eng/grpc-web@0.15.0):
     resolution: {integrity: sha512-HLgJfVolGGpjc9DWPhmMmXJx8YGzkek7jcCFO1YYkSOoO81MWRZentPOd/JiKiZuU08wtc4BG+WNuGzsQB5jZA==}
     peerDependencies:
@@ -1382,6 +1412,14 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
     dev: true
+
+  /@openzeppelin/contracts-upgradeable@4.8.3:
+    resolution: {integrity: sha512-SXDRl7HKpl2WDoJpn7CK/M9U4Z8gNXDHHChAKh0Iz+Wew3wu6CmFYBeie3je8V0GSXZAIYYwUktSrnW/kwVPtg==}
+    dev: false
+
+  /@openzeppelin/contracts@4.8.3:
+    resolution: {integrity: sha512-bQHV8R9Me8IaJoJ2vPG4rXcL7seB7YVuskr4f+f5RyOStSZetwzkWtoqDMl5erkBJy0lDRUnIR2WIkPiC0GJlg==}
+    dev: false
 
   /@protobufjs/aspromise@1.1.2:
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
