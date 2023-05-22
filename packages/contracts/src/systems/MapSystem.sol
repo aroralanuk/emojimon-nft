@@ -4,7 +4,7 @@ import { System } from "@latticexyz/world/src/System.sol";
 import { Encounter, EncounterData, Encounterable, EncounterTrigger, MapConfig, Monster, Movable, Obstruction, Player, Position } from "../codegen/Tables.sol";
 import { MonsterType } from "../codegen/Types.sol";
 import { addressToEntityKey } from "../addressToEntityKey.sol";
-import { positionToEntityKey } from "../positionToEntityKey.sol";
+import { positionToEntityKey } from "../toEntityKey.sol";
 
 contract MapSystem is System {
   function spawn(uint32 x, uint32 y) public {

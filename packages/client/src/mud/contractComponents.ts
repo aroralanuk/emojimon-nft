@@ -164,6 +164,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
+          tokenId: RecsType.BigInt,
           uri: RecsType.String,
         },
         {

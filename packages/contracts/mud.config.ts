@@ -44,11 +44,8 @@ export default mudConfig({
     OwnedBy: "bytes32",
     Player: "bool",
     Token: {
-      keySchema: {
-        id: "bytes32",
-        tokenId: "uint256",
-      },
       schema: {
+        tokenId: "uint256",
         uri: "bytes"
       }
     },
