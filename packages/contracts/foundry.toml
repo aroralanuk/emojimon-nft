@@ -15,5 +15,11 @@ extra_output_files = [
 ]
 fs_permissions = [{ access = "read", path = "./"}]
 
+[profile.optimism-testnet]
+eth_rpc_url = "https://optimism-goerli.infura.io/v3/26423ae5f7f645398aa0f783e7ced5a6"
+
+[profile.hackathon-testnet]
+eth_rpc_url = "https://lattice-goerli-sequencer.optimism.io"
+
 [profile.lattice-testnet]
 eth_rpc_url = "https://follower.testnet-chain.linfra.xyz"

@@ -3,10 +3,11 @@ pragma solidity >=0.8.0;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {EnumerableMap} from "@openzeppelin/contracts/utils/structs/EnumerableMap.sol";
+import {TypeCasts} from "@hyperlane-xyz/core/contracts/libs/TypeCasts.sol";
+import {GasRouter} from "@hyperlane-xyz/core/contracts/GasRouter.sol";
+import {Message} from "./Message.sol";
 
-import {TokenRouter} from "./TokenRouter.sol";
-
-contract WrappedERC721 is TokenRouter {
+contract WrappedERC721 is GasRouter {
     using EnumerableMap for EnumerableMap.UintToUintMap;
 
     uint32 localDomain = 10;
@@ -16,6 +17,12 @@ contract WrappedERC721 is TokenRouter {
     mapping (uint32 => uint256) public nextWrappedTokenIds;
 
     mapping(address => mapping(uint256 => EnumerableMap.UintToUintMap)) internal _wrappedTokens;
+
+    event AssetTransferRemote(
+        uint32 indexed destination,
+        bytes32 indexed recipient,
+        uint256 amount
+    );
 
     constructor() {}
 
@@ -38,32 +45,32 @@ contract WrappedERC721 is TokenRouter {
     function transferAsset(
         address _contract,
         uint256 _tokenId,
-        uint32 destinationDomain
-    ) public {
-        uint256 _wrappedTokenId = nextWrappedTokenIds[destinationDomain];
+        uint32 _destinationDomain
+    ) public payable returns (bytes32 messageId) {
+        uint256 _wrappedTokenId = nextWrappedTokenIds[_destinationDomain];
 
-        _wrappedTokens[_contract][_tokenId].set(destinationDomain, _wrappedTokenId);
+        _wrappedTokens[_contract][_tokenId].set(_destinationDomain, _wrappedTokenId);
 
-        // transferRemote()
+        bytes memory metadata = abi.encodePacked(ERC721(_contract).tokenURI(_tokenId));
 
-        nextWrappedTokenIds[destinationDomain] += 1;
+        bytes32 _msgSender = TypeCasts.addressToBytes32(msg.sender);
+        // change metadata LD style
+        messageId = _dispatchWithGas(
+            _destinationDomain,
+            Message.format(_msgSender, _wrappedTokenId, metadata),
+            msg.value, // interchain gas payment
+            msg.sender // refund address
+        );
+        emit AssetTransferRemote(_destinationDomain, _msgSender, _wrappedTokenId);
+
+        nextWrappedTokenIds[_destinationDomain] += 1;
     }
 
-    function _transferFromSender(uint256 _tokenId)
-        internal
-        override
-        returns (bytes memory metadata)
-    {
-        // return ERC721(address(0x1)).tokenURI(_tokenId);
-        return new bytes(0);
-    }
-
-    function _transferTo(
-        address _recipient,
-        uint256 _amountOrId,
-        bytes calldata metadata
-    ) internal override {
-    }
+    function _handle(
+        uint32 _origin,
+        bytes32,
+        bytes calldata _message
+    ) internal override {}
 
     function getWrappedToken(address _contract, uint256 _tokenId, uint32 _domain) public view returns (uint256) {
         return _wrappedTokens[_contract][_tokenId].get(_domain);
