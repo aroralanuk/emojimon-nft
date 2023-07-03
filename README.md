@@ -1,7 +1,9 @@
-# Emojimon
+# Visa
 
-> Create a Pokémon-inspired on-chain game with [MUD](https://mud.dev/)
+> Enable regular NFTs to be bridged into a MUD environment using Hyperlane
 
-### [Read the tutorial on mud.dev &rarr;](https://mud.dev/tutorials/emojimon/)
+Salient features
 
-[![emojimon demo](https://github.com/latticexyz/mud/blob/3fdaa9880639a9546f80fbffdcc4a713178328c1/tutorials/emojimon/images/emojimon-intro.gif?raw=true)](https://mud.dev/tutorials/emojimon/)
+- Same NFT token can be bridged to mulitiple MUD games as avatar component.
+- You can access the NFT metadata directly in the game
+- The principal token uses a expiry which you can use to revoke the asset remotely from your origin chain
