@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.8.0;
 
+import "forge-std/console.sol";
+
 import {GasRouter} from "@hyperlane-xyz/core/contracts/GasRouter.sol";
 import {Message} from "./Message.sol";
 
@@ -16,9 +18,11 @@ contract MUDRouter is GasRouter {
         bytes calldata _message
     ) internal override {
         bytes32 recipient = _message.recipient();
-        uint256 amount = _message.amount();
+        uint256 tokenId = _message.tokenId();
         bytes calldata metadata = _message.metadata();
 
-        tokenSystem.mint(amount, metadata);
+        console.log("MUDRouter: _handle: amount: %s", tokenId);
+
+        tokenSystem.mint(tokenId, metadata);
     }
 }
