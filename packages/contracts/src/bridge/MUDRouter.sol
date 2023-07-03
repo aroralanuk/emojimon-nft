@@ -12,6 +12,24 @@ contract MUDRouter is GasRouter {
     using Message for bytes;
 
     TokenSystem public tokenSystem;
+
+    /**
+     * @notice Initializes the MUD router.
+     * @param _mailbox The address of the mailbox contract.
+     * @param _interchainGasPaymaster The address of the interchain gas paymaster contract.
+     */
+    function initialize(
+        address _mailbox,
+        address _interchainGasPaymaster
+    ) external initializer {
+        // transfers ownership to `msg.sender`
+        __HyperlaneConnectionClient_initialize(
+            _mailbox,
+            _interchainGasPaymaster
+        );
+    }
+
+
     function _handle(
         uint32 _origin,
         bytes32 sender,

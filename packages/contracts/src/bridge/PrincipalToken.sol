@@ -2,6 +2,7 @@
 pragma solidity >=0.8.0;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {ERC721Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import {ContextUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import {Context} from "@openzeppelin/contracts/utils/Context.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
@@ -11,7 +12,7 @@ import {Message} from "./Message.sol";
 
 
 /// @notice NFT token for stored locked principal tokens
-contract PrincipalToken is GasRouter, ERC721 {
+contract PrincipalToken is GasRouter, ERC721Upgradeable {
     using EnumerableSet for EnumerableSet.UintSet;
 
     struct Replica {
@@ -41,7 +42,23 @@ contract PrincipalToken is GasRouter, ERC721 {
         uint256 amount
     );
 
-    constructor() ERC721("VisaPrincipalToken", "VPT") {}
+    /**
+     * @notice Initializes the MUD router.
+     * @param _mailbox The address of the mailbox contract.
+     * @param _interchainGasPaymaster The address of the interchain gas paymaster contract.
+     */
+    function initialize(
+        address _mailbox,
+        address _interchainGasPaymaster
+    ) external initializer {
+        // transfers ownership to `msg.sender`
+        __HyperlaneConnectionClient_initialize(
+            _mailbox,
+            _interchainGasPaymaster
+        );
+
+        __ERC721_init("VisaPrincipalToken", "VPT");
+    }
 
     function create(address _contract, uint256 _tokenId) external returns (uint256) {
         ERC721(_contract).transferFrom(msg.sender, address(this), _tokenId);
@@ -102,15 +119,5 @@ contract PrincipalToken is GasRouter, ERC721 {
 
     function setBaseURI(string memory _baseURI) external {
         baseURI = _baseURI;
-    }
-
-    // annoying diamond inheritance problem
-
-    function _msgData() internal view override(ContextUpgradeable, Context) returns (bytes calldata) {
-        return ContextUpgradeable._msgData();
-    }
-
-    function _msgSender() internal view override(ContextUpgradeable, Context) returns (address) {
-        return ContextUpgradeable._msgSender();
     }
 }
